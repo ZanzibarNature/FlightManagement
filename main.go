@@ -2,27 +2,47 @@ package main
 
 import (
 	"fmt"
-	"log"
+	"net/http"
+	"os"
 
+	log "github.com/sirupsen/logrus"
+
+	"github.com/julienschmidt/httprouter"
 	"github.com/streadway/amqp"
 )
 
-func main() {
-	fmt.Println("Saus")
-	log.Println("extra saus")
+var rabbit_host = os.Getenv("RABBIT_HOST")
+var rabbit_port = os.Getenv("RABBIT_PORT")
+var rabbit_user = os.Getenv("RABBIT_USER")
+var rabbit_password = os.Getenv("RABBIT_PASSWORD")
 
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+func main() {
+
+	router := httprouter.New()
+
+	router.POST("/publish/:message", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		submit(w, r, p)
+	})
+
+	fmt.Println("Running")
+	log.Fatal(http.ListenAndServe(":80", router))
+}
+
+func submit(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	message := p.ByName("message")
+
+	fmt.Println("Recieved: " + message)
+
+	conn, err := amqp.Dial("amqp://" + rabbit_user + ":" + rabbit_password + "@" + rabbit_host + ":" + rabbit_port + "/")
 	if err != nil {
-		log.Println("Error in connection")
+		log.Fatalf("%s: %s", "Failed to open connection to RabbitMQ", err)
 	}
 
 	defer conn.Close()
 
-	fmt.Println("Succesfully connected to rabbit mq")
-
 	chl, err := conn.Channel()
 	if err != nil {
-		panic(err)
+		log.Fatalf("%s: %s", "Failed to open the channel", err)
 	}
 
 	defer chl.Close()
@@ -37,27 +57,22 @@ func main() {
 	)
 
 	if err != nil {
-		fmt.Println("Error in queue declaration")
-		panic(err)
+		log.Fatalf("%s: %s", "Failed to open the queue", err)
 	}
-
-	fmt.Println(q)
 
 	err = chl.Publish(
-		"",            // exchange
-		"FlightQueue", // routing key
-		false,         // mandatory
-		false,         // immediate
+		"",     // exchange
+		q.Name, // routing key
+		false,  // mandatory
+		false,  // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
-			Body:        []byte("Hello World"),
-		},
-	)
+			Body:        []byte(message),
+		})
 
 	if err != nil {
-		fmt.Println("Error in publishing message")
-		panic(err)
+		log.Fatalf("%s: %s", "Failed to publish message to the queue", err)
 	}
 
-	fmt.Println(" Pulished message to queue")
+	fmt.Println("Post succesful!")
 }
