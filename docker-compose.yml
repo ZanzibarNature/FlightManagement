@@ -8,6 +8,8 @@ services:
       - 8080:15672/tcp
 
   consumer:
+    depends_on:
+      - rabbitmq
     build: ./consumer
     container_name: flightmgmt_consumer
     restart: unless-stopped
@@ -17,6 +19,8 @@ services:
       - RABBIT_PASSWORD=guest
 
   publisher:
+    depends_on:
+      - rabbitmq
     build: ./publisher
     ports:
       - 80:80/tcp

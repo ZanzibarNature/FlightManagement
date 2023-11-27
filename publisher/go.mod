@@ -1,4 +1,4 @@
-module FlightManagement
+module FlightManagement_publisher
 
 go 1.21.4
 
