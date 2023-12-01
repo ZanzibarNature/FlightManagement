@@ -33,8 +33,7 @@ jobs:
         name: Build and push publisher
         uses: docker/build-push-action@v5
         with:
-          context: . 
-          file: ./publisher/Dockerfile
+          context: publisher
           push: true
           platforms: linux/amd64,linux/arm64
           tags: zanzibarinh/flightmanagementpublisher:latest
@@ -42,8 +41,7 @@ jobs:
         name: Build and push consumer
         uses: docker/build-push-action@v5
         with:
-          context: . 
-          file: ./consumer/Dockerfile
+          context: consumer
           push: true
           platforms: linux/amd64,linux/arm64
           tags: zanzibarinh/flightmanagementconsumer:latest
