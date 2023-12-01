@@ -30,8 +30,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: run pwd & ls
-        run: pwd; ls
+        name: run ls
+        run: ls
       -
         name: Build and push publisher
         uses: docker/build-push-action@v5
