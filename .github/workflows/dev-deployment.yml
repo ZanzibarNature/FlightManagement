@@ -1,7 +1,6 @@
 name: DockerHub
 
-on:
-  push:
+on: push
 
 jobs:
   dev-build:
