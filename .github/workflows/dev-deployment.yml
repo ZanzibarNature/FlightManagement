@@ -1,0 +1,73 @@
+name: DockerHub
+
+on: push
+
+jobs:
+  dev-build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}      
+      -
+        name: Build and push publisher
+        uses: docker/build-push-action@v5
+        with:
+          context: ./publisher
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: zanzibarinh/flight-management-publisher-dev:latest
+      -
+        name: Build and push consumer
+        uses: docker/build-push-action@v5
+        with:
+          context: ./consumer
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: zanzibarinh/flight-management-consumer-dev:latest
+  main-build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}      
+      -
+        name: Build and push publisher
+        uses: docker/build-push-action@v5
+        with:
+          context: ./publisher
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: zanzibarinh/flight-management-publisher-prod:latest
+      -
+        name: Build and push consumer
+        uses: docker/build-push-action@v5
+        with:
+          context: ./consumer
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: zanzibarinh/flight-management-consumer-prod:latest
