@@ -2,13 +2,11 @@ name: DockerHub
 
 on:
   push:
-    branches:
-      - feat/deploy-to-dev-env
 
 jobs:
   dev-build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/dev'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -42,7 +40,7 @@ jobs:
           tags: zanzibarinh/flight-management-consumer-dev:latest
   main-build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/feat/deploy-to-dev-env'
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
