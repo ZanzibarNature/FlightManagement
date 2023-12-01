@@ -1,0 +1,49 @@
+name: fm-dev-pipeline
+
+on:
+  push:
+    branches:
+      - feat/deploy-to-dev-env
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3      
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push publisher
+        uses: docker/build-push-action@v5
+        with:
+          context: . 
+          file: ./publisher/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: zanzibarinh/flightmanagementpublisher:latest
+      -
+        name: Build and push consumer
+        uses: docker/build-push-action@v5
+        with:
+          context: . 
+          file: ./consumer/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: zanzibarinh/flightmanagementconsumer:latest
