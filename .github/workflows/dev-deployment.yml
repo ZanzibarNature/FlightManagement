@@ -32,6 +32,7 @@ jobs:
       -
         name: Build and push publisher
         uses: docker/build-push-action@v5
+        run: pwd
         with:
           context: /publisher
           push: true
