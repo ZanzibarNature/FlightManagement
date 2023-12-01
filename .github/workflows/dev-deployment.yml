@@ -1,4 +1,4 @@
-name: fm-dev-pipeline
+name: DockerHub
 
 on:
   push:
