@@ -25,11 +25,10 @@ spec:
         io.kompose.service: rabbitmq
     spec:
       containers:
-        - image: rabbitmq:3.8-management
+        - image: rabbitmq:3.11-management
           name: flightmgmt-rabbitmq
           ports:
             - containerPort: 15672
-              hostPort: 8080
               protocol: TCP
           resources: {}
       restartPolicy: Always

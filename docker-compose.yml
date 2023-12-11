@@ -2,17 +2,19 @@ version: "3.9"
 
 services:
   rabbitmq:
-    image: rabbitmq:3.8-management
+    image: rabbitmq:3.11-management
     container_name: flightmgmt_rabbitmq
     ports:
-      - 8080:15672/tcp
+      - :15672/tcp
 
   consumer:
     depends_on:
       - rabbitmq
     build: ./consumer
+    ports:
+      - :80/tcp
     container_name: flightmgmt_consumer
-    restart: unless-stopped
+    restart: always
     environment:
       - RABBIT_HOST=rabbitmq
       - RABBIT_USER=guest
@@ -23,9 +25,9 @@ services:
       - rabbitmq
     build: ./publisher
     ports:
-      - 80:80/tcp
+      - :80/tcp
     container_name: flightmgmt_publisher
-    restart: unless-stopped
+    restart: always
     environment:
       - RABBIT_HOST=rabbitmq
       - RABBIT_USER=guest

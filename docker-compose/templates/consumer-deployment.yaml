@@ -34,6 +34,9 @@ spec:
               value: guest
           image: consumer
           name: flightmgmt-consumer
+          ports:
+            - containerPort: 80
+              protocol: TCP
           resources: {}
       restartPolicy: Always
 status: {}

@@ -34,6 +34,9 @@ spec:
               value: guest
           image: publisher
           name: flightmgmt-publisher
+          ports:
+            - containerPort: 80
+              protocol: TCP
           resources: {}
       restartPolicy: Always
 status: {}
