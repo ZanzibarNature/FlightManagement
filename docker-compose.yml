@@ -5,7 +5,8 @@ services:
     image: rabbitmq:3.11-management
     container_name: flightmgmt_rabbitmq
     ports:
-      - 8080:15672/tcp
+      - 5672:5672
+      - 15672:15672/tcp
 
   consumer:
     depends_on:

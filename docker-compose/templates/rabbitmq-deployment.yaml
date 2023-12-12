@@ -29,8 +29,11 @@ spec:
         - image: rabbitmq:3.11-management
           name: flightmgmt-rabbitmq
           ports:
+            - containerPort: 5672
+              hostPort: 5672
+              protocol: TCP
             - containerPort: 15672
-              hostPort: 8080
+              hostPort: 15672
               protocol: TCP
           resources: {}
       restartPolicy: Always
