@@ -5,14 +5,15 @@ services:
     image: rabbitmq:3.11-management
     container_name: flightmgmt_rabbitmq
     ports:
-      - :15672/tcp
+      - 5672:5672
+      - 15672:15672/tcp
 
   consumer:
     depends_on:
       - rabbitmq
     build: ./consumer
     ports:
-      - :80/tcp
+      - 80:5000/tcp
     container_name: flightmgmt_consumer
     restart: always
     environment:
@@ -25,7 +26,7 @@ services:
       - rabbitmq
     build: ./publisher
     ports:
-      - :80/tcp
+      - 80:5000/tcp
     container_name: flightmgmt_publisher
     restart: always
     environment:
