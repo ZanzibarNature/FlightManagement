@@ -7,6 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: rabbitmq
+  namespace: kawa-foundation-app-dev
   name: rabbitmq
 spec:
   ports:

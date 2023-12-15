@@ -7,6 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: publisher
+  namespace: kawa-foundation-app-dev
   name: publisher
 spec:
   ports:
