@@ -8,7 +8,7 @@ services:
       - 5672:5672
       - 15672:15672/tcp
 
-  consumer:
+  consumer-app:
     depends_on:
       - rabbitmq
     build: ./consumer
@@ -21,7 +21,7 @@ services:
       - RABBIT_USER=guest
       - RABBIT_PASSWORD=guest
 
-  publisher:
+  publisher-app:
     depends_on:
       - rabbitmq
     build: ./publisher
