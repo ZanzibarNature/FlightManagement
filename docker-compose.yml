@@ -13,7 +13,7 @@ services:
       - rabbitmq
     build: ./consumer
     ports:
-      - 80:5000/tcp
+      - 5000/tcp
     container_name: flightmgmt_consumer
     restart: always
     environment:
@@ -26,7 +26,7 @@ services:
       - rabbitmq
     build: ./publisher
     ports:
-      - 80:5000/tcp
+      - 5000/tcp
     container_name: flightmgmt_publisher
     restart: always
     environment:
