@@ -53,7 +53,7 @@ jobs:
       - 
         name: Deploy with Helm
         run: |
-            helm upgrade --install flight-management-dev ./docker-compose
+            helm upgrade --install flightmanagement-dev ./docker-compose
   main-build:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
@@ -104,4 +104,4 @@ jobs:
       - 
         name: Deploy with Helm
         run: |
-            helm upgrade --install flight-management-prod ./docker-compose
+            helm upgrade --install flightmanagement-prod ./docker-compose
