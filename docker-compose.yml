@@ -15,6 +15,7 @@ services:
       - RABBIT_HOST=rabbitmq
       - RABBIT_USER=guest
       - RABBIT_PASSWORD=guest
+      - RABBIT_PORT=15672
 
   publisher-app:
     depends_on:
@@ -26,3 +27,4 @@ services:
       - RABBIT_HOST=rabbitmq
       - RABBIT_USER=guest
       - RABBIT_PASSWORD=guest
+      - RABBIT_PORT=15672

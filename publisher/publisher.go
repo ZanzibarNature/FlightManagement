@@ -24,7 +24,7 @@ func main() {
 	})
 
 	fmt.Println("Running")
-	log.Fatal(http.ListenAndServe(":80", router))
+	log.Fatal(http.ListenAndServe(":5000", router))
 }
 
 func submit(w http.ResponseWriter, r *http.Request, p httprouter.Params) {

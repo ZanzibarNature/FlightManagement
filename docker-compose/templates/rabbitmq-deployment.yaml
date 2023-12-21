@@ -7,7 +7,6 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: rabbitmq
-  namespace: kawa-foundation-app-dev
   name: rabbitmq
 spec:
   replicas: 1
@@ -28,11 +27,6 @@ spec:
       containers:
         - image: rabbitmq:3.11-management
           name: flightmgmt-rabbitmq
-          ports:
-            - containerPort: 5672
-              protocol: TCP
-            - containerPort: 15672
-              protocol: TCP
           resources: {}
       restartPolicy: Always
 status: {}

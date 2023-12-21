@@ -7,7 +7,6 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: publisher-app
-  namespace: kawa-foundation-app-dev
   name: publisher-app
 spec:
   replicas: 1
@@ -31,13 +30,12 @@ spec:
               value: rabbitmq
             - name: RABBIT_PASSWORD
               value: guest
+            - name: RABBIT_PORT
+              value: "15672"
             - name: RABBIT_USER
               value: guest
           image: publisher-app
           name: flightmgmt-publisher
-          ports:
-            - containerPort: 5000
-              protocol: TCP
           resources: {}
       restartPolicy: Always
 status: {}
