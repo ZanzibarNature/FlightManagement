@@ -76,6 +76,9 @@ jobs:
     needs: build-dev
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       -
         name: Set up OpenShift CLI
         uses: redhat-actions/oc-login@v1
@@ -107,6 +110,9 @@ jobs:
     needs: build-main
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       -
         name: Set up OpenShift CLI
         uses: redhat-actions/oc-login@v1
