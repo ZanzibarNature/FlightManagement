@@ -3,7 +3,7 @@ name: DockerHub
 on: push
 
 jobs:
-  dev-build:
+  build-dev:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/dev'
     steps:
@@ -36,25 +36,8 @@ jobs:
           context: ./consumer
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zanzibarinh/flight-management-consumer-dev:latest
-      -
-        name: Set up OpenShift CLI
-        uses: redhat-actions/oc-login@v1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-          insecure_skip_tls_verify: true
-          namespace: kawa-foundation-app-dev
-      - 
-        name: Set up Helm
-        uses: azure/setup-helm@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - 
-        name: Deploy with Helm
-        run: |
-            helm upgrade --install flightmanagement-dev ./docker-compose
-  main-build:
+          tags: zanzibarinh/flight-management-consumer-dev:latest      
+  build-main:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
@@ -87,7 +70,12 @@ jobs:
           context: ./consumer
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: zanzibarinh/flight-management-consumer-prod:latest
+          tags: zanzibarinh/flight-management-consumer-prod:latest      
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build-dev
+
+    steps:
       -
         name: Set up OpenShift CLI
         uses: redhat-actions/oc-login@v1
@@ -95,7 +83,29 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
-          namespace: kawa-foundation-app-prod
+          namespace: kawa-foundation-app-dev
+      - 
+        name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - 
+        name: Deploy with Helm
+        run: |
+            helm upgrade --install flightmanagement-dev ./docker-compose
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: build-main
+
+    steps:
+      -
+        name: Set up OpenShift CLI
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          insecure_skip_tls_verify: true
+          namespace: kawa-foundation-app
       - 
         name: Set up Helm
         uses: azure/setup-helm@v3
