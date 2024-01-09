@@ -89,6 +89,15 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      -
+        name: PWD
+        run: pwd
+
+      -
+        name: LS
+        run: ls -a 
+
       - 
         name: Deploy with Helm
         run: |
