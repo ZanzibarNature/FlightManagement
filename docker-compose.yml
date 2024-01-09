@@ -4,27 +4,34 @@ services:
   rabbitmq:
     image: rabbitmq:3.11-management
     container_name: flightmgmt_rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
 
   consumer-app:
     depends_on:
       - rabbitmq
-    build: ./consumer
+    image: zanzibarinh/flight-management-consumer-dev:latest
     container_name: flightmgmt_consumer
     restart: always
+    ports:
+      - 443:5000      
     environment:
       - RABBIT_HOST=rabbitmq
-      - RABBIT_USER=guest
-      - RABBIT_PASSWORD=guest
+      - RABBIT_USER=
+      - RABBIT_PASSWORD=
       - RABBIT_PORT=15672
 
   publisher-app:
     depends_on:
       - rabbitmq
-    build: ./publisher
+    image: zanzibarinh/flight-management-publisher-dev:latest
     container_name: flightmgmt_publisher
     restart: always
+    ports:
+      - 443:5000
     environment:
       - RABBIT_HOST=rabbitmq
-      - RABBIT_USER=guest
-      - RABBIT_PASSWORD=guest
+      - RABBIT_USER=
+      - RABBIT_PASSWORD=
       - RABBIT_PORT=15672

@@ -1,6 +1,6 @@
 name: docker-compose
 description: A generated Helm Chart for docker-compose from Skippbox Kompose
-version: 0.0.2
+version: 0.0.3
 apiVersion: v2
 keywords:
   - docker-compose
