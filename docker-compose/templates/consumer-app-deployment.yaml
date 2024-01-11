@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\davey\AppData\Local\Microsoft\WinGet\Links\kompose.exe convert -c
+    kompose.version: 1.30.0 (9d8dcb518)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: consumer-app
+  name: consumer-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: consumer-app
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\davey\AppData\Local\Microsoft\WinGet\Links\kompose.exe convert -c
+        kompose.version: 1.30.0 (9d8dcb518)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/flightmanagement-default: "true"
+        io.kompose.service: consumer-app
+    spec:
+      containers:
+        - env:
+            - name: RABBIT_HOST
+              value: rabbitmq
+            - name: RABBIT_PASSWORD
+            - name: RABBIT_PORT
+              value: "15672"
+            - name: RABBIT_USER
+          image: zanzibarinh/flight-management-consumer-dev:latest
+          name: flightmgmt-consumer
+          resources: {}
+      restartPolicy: Always
+status: {}
