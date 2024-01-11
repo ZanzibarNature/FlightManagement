@@ -1,4 +1,4 @@
-module FlightManagement_consumer
+module consumer
 
 go 1.21.4
 
