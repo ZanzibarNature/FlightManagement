@@ -28,11 +28,25 @@ spec:
       containers:
         - env:
             - name: RABBIT_HOST
-              value: rabbitmq
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-setup
+                  key: RABBIT_HOST
             - name: RABBIT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-setup
+                  key: RABBIT_PASSWORD
             - name: RABBIT_PORT
-              value: "15672"
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-setup
+                  key: RABBIT_PORT
             - name: RABBIT_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-setup
+                  key: RABBIT_USER
           image: zanzibarinh/flight-management-publisher-dev:latest
           name: flightmgmt-publisher
           resources: {}
