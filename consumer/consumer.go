@@ -19,7 +19,7 @@ func main() {
 
 func consume() {
 	var connString = "amqp://" + rabbit_user + ":" + rabbit_password + "@" + rabbit_host + ":" + rabbit_port + "/"
-	log.Debugln(connString)
+	fmt.Println(connString)
 	conn, err := amqp.Dial("amqp://" + rabbit_user + ":" + rabbit_password + "@" + rabbit_host + ":" + rabbit_port + "/")
 	if err != nil {
 		log.Fatalf("%s: %s", "Failed to open connection to RabbitMQ", err)
