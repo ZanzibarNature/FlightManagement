@@ -9,6 +9,7 @@ import (
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/streadway/amqp"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 var rabbit_host = os.Getenv("RABBIT_HOST")
@@ -18,6 +19,17 @@ var rabbit_password = os.Getenv("RABBIT_PASSWORD")
 
 func main() {
 	router := httprouter.New()
+
+	var swaggerDoc = "http://localhost:5000/swagger/doc.json"
+
+	// Reformat httpSwagger Handler function to expected format for net/http router
+	swaggerHandler := func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+		httpSwagger.Handler(
+			httpSwagger.URL(swaggerDoc), //The url pointing to API definition
+		)
+	}
+
+	router.GET("/swagger/*", swaggerHandler)
 
 	router.POST("/api/publish/:message", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		submit(w, r, p)
