@@ -19,7 +19,7 @@ var rabbit_password = os.Getenv("RABBIT_PASSWORD")
 func main() {
 	router := httprouter.New()
 
-	router.POST("/publish/:message", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	router.POST("/api/publish/:message", func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		submit(w, r, p)
 	})
 
